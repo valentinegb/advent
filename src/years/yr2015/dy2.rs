@@ -1,25 +1,32 @@
-pub(super) fn pt1(input: String) {
-    let presents = input.split('\n').map(|present| {
-        let (left, right) = present
-            .split_once('x')
-            .expect("present dimensions should contain two 'x'");
-        let right = right
-            .split_once('x')
-            .expect("present dimensions should contain two 'x'");
+fn parse_input(input: String) -> Vec<(u32, u32, u32)> {
+    input
+        .split('\n')
+        .map(|present| {
+            let (left, right) = present
+                .split_once('x')
+                .expect("present dimensions should contain two 'x'");
+            let right = right
+                .split_once('x')
+                .expect("present dimensions should contain two 'x'");
 
-        (
-            left.parse::<u32>()
-                .expect("present `l` should be a positive 32-bit number"),
-            right
-                .0
-                .parse::<u32>()
-                .expect("present `w` should be a positive 32-bit number"),
-            right
-                .1
-                .parse::<u32>()
-                .expect("present `h` should be a positive 32-bit number"),
-        )
-    });
+            (
+                left.parse::<u32>()
+                    .expect("present `l` should be a positive 32-bit number"),
+                right
+                    .0
+                    .parse::<u32>()
+                    .expect("present `w` should be a positive 32-bit number"),
+                right
+                    .1
+                    .parse::<u32>()
+                    .expect("present `h` should be a positive 32-bit number"),
+            )
+        })
+        .collect()
+}
+
+pub(super) fn pt1(input: String) {
+    let presents = parse_input(input);
     let mut total_wrapping_paper = 0;
 
     for (l, w, h) in presents {
