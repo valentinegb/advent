@@ -46,5 +46,17 @@ pub(super) fn pt1(input: String) {
 }
 
 pub(super) fn pt2(input: String) {
-    todo!();
+    let presents = parse_input(input);
+    let mut total_ribbon = 0;
+
+    for (l, w, h) in presents {
+        let mut ribbon = 0;
+        let mut dimensions = [l, w, h];
+
+        dimensions.sort();
+        ribbon += dimensions[0] * 2 + dimensions[1] * 2 + (l * w * h);
+        total_ribbon += ribbon;
+    }
+
+    println!("{total_ribbon}");
 }
