@@ -14,6 +14,6 @@ fn main() {
     let advent_args = AdventArgs::parse();
 
     match advent_args.year {
-        AdventYear::Yr2015 { day, input } => yr2015(day, input),
+        AdventYear::Yr2015 { day, part, input } => yr2015(day, part, input),
     }
 }

@@ -1,4 +1,4 @@
-pub(super) fn dy1(input: String) {
+pub(super) fn pt1(input: String) {
     let mut floor = 0;
 
     for char in input.chars() {
