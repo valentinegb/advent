@@ -3,7 +3,7 @@ name = "advent"
 version = "0.1.0"
 authors = ["Valentine Briese <valentinegb@icloud.com>"]
 edition = "2021"
-description = "A command for running advent of code puzzles"
+description = "CLI for running Advent of Code puzzles that I've solved"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
