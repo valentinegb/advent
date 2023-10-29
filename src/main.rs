@@ -5,7 +5,6 @@ use years::{yr2015::yr2015, AdventYear};
 
 #[derive(Parser)]
 #[command(
-    version,
     author,
     about,
     override_usage = "advent <YEAR> <DAY> <PART> <INPUT>",
