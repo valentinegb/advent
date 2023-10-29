@@ -17,6 +17,8 @@ $ advent 2015 3 1 "^>v<"
 4
 ```
 
+Run `advent --help` for more information.
+
 ## Why?
 
 I wanted to start keeping the puzzles I've been completing so that I can look back at them later and see how I've improved. Also, if anyone else doing Advent of Code puzzles would like to, they can ~~copy and paste~~ take inspiration from my code.
