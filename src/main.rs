@@ -4,7 +4,14 @@ use clap::Parser;
 use years::{yr2015::yr2015, AdventYear};
 
 #[derive(Parser)]
-#[command(version, author, about)]
+#[command(
+    version,
+    author,
+    about,
+    override_usage = "advent <YEAR> <DAY> <PART> <INPUT>",
+    disable_help_subcommand = true,
+    after_help = "To see possible values of a year, run `advent <YEAR> --help`."
+)]
 struct AdventArgs {
     #[command(subcommand)]
     year: AdventYear,
