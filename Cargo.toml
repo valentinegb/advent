@@ -1,11 +1,23 @@
 [package]
 name = "advent"
 version = "0.1.0"
-authors = ["Valentine Briese <valentinegb@icloud.com>"]
-edition = "2021"
+authors.workspace = true
+edition.workspace = true
 description = "CLI for running Advent of Code puzzles that I've solved"
+repository.workspace = true
+publish.workspace = true
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+advent-proc-macros = { version = "0.1.0", path = "advent-proc-macros" }
 clap = { version = "4.4.7", features = ["derive"] }
+
+[workspace]
+members = ["advent-proc-macros"]
+
+[workspace.package]
+authors = ["Valentine Briese <valentinegb@icloud.com"]
+edition = "2021"
+repository = "https://github.com/valentinegb/advent"
+publish = false

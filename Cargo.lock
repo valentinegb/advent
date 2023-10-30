@@ -6,7 +6,16 @@ version = 3
 name = "advent"
 version = "0.1.0"
 dependencies = [
+ "advent-proc-macros",
  "clap",
+]
+
+[[package]]
+name = "advent-proc-macros"
+version = "0.1.0"
+dependencies = [
+ "quote",
+ "syn",
 ]
 
 [[package]]
