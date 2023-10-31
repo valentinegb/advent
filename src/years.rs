@@ -13,10 +13,10 @@ pub(super) enum AdventYear {
         day: Advent2015Day,
         /// Puzzle part
         #[arg(value_enum)]
-        part: AdventPuzzlePart,
+        part: Option<AdventPuzzlePart>,
         /// Puzzle input
         #[arg()]
-        input: String,
+        input: Option<String>,
     },
 }
 

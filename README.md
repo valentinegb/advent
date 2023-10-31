@@ -7,7 +7,7 @@ CLI for running Advent of Code puzzles that I've solved
 This is a project I've made to organize all of the Advent of Code puzzles that I've completed. It's a command line interface, and it's usage is like this:
 
 ```
-advent <YEAR> <DAY> <PART> <INPUT>
+advent <YEAR> <DAY> [PART] [INPUT]
 ```
 
 So running a puzzle in practice looks like this:

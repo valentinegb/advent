@@ -35,8 +35,10 @@ pub fn year(tokens: TokenStream) -> TokenStream {
     let mut day_modules = quote! {};
     let mut year_day_struct_fields = quote! {};
     let mut fn_match_patterns = quote! {};
+    let mut fn_source_code_match_patterns = quote! {};
 
     let year_day_struct_ident = Ident::new(&format!("Advent{}Day", year), year.span());
+    let lowercase_year_ident = Ident::new(&format!("yr{}", year), year.span());
 
     for day in days {
         let lowercase_day_ident = Ident::new(&format!("dy{}", day), day.span());
@@ -62,14 +64,27 @@ pub fn year(tokens: TokenStream) -> TokenStream {
                 AdventPuzzlePart::Pt2 => #lowercase_day_ident::pt2(input),
             },
         };
-    }
 
-    let fn_ident = Ident::new(&format!("yr{}", year), year.span());
+        let day_file_path = LitStr::new(
+            &format!("{}/{}.rs", lowercase_year_ident, lowercase_day_ident),
+            day.span(),
+        );
+
+        fn_source_code_match_patterns = quote! {
+            #fn_source_code_match_patterns
+            #year_day_struct_ident::#uppercase_day_ident => include_bytes!(#day_file_path),
+        };
+    }
 
     TokenStream::from(quote! {
         #day_modules
 
-        use clap::ValueEnum;
+        use clap::{Command, ValueEnum};
+        use tree_sitter_highlight::{
+            HighlightConfiguration,
+            Highlighter,
+            HighlightEvent
+        };
 
         use super::AdventPuzzlePart;
 
@@ -78,9 +93,77 @@ pub fn year(tokens: TokenStream) -> TokenStream {
             #year_day_struct_fields
         }
 
-        pub(crate) fn #fn_ident(day: #year_day_struct_ident, part: AdventPuzzlePart, input: String) {
-            match day {
-                #fn_match_patterns
+        pub(crate) fn #lowercase_year_ident(cmd: &mut Command, day: #year_day_struct_ident, part: Option<AdventPuzzlePart>, input: Option<String>) {
+            if let Some(part) = part {
+                if let Some(input) = input {
+                    match day {
+                        #fn_match_patterns
+                    }
+                } else {
+                    cmd.error(
+                        clap::error::ErrorKind::MissingRequiredArgument,
+                        "the following arguments were not provided and are required because [PART] was specified:\n  \x1b[32m[INPUT]\x1b[39m",
+                    ).exit();
+                }
+            } else {
+                let highlight_names = [
+                    // Red
+                    "property",
+                    // Green
+                    "string",
+                    "string.special",
+                    // Yellow
+                    "constant",
+                    // Blue
+                    "function.builtin",
+                    "function",
+                    // Magenta
+                    "keyword",
+                    // Cyan
+                    "type",
+                    "type.builtin",
+                ];
+                let mut highlighter = Highlighter::new();
+                let rust_language = tree_sitter_rust::language();
+                let mut rust_config = HighlightConfiguration::new(
+                    rust_language,
+                    tree_sitter_rust::HIGHLIGHT_QUERY,
+                    tree_sitter_rust::INJECTIONS_QUERY,
+                    "",
+                ).unwrap();
+                rust_config.configure(&highlight_names);
+                let source: &[u8] = match day {
+                    #fn_source_code_match_patterns
+                };
+                let highlights = highlighter.highlight(
+                    &rust_config,
+                    source,
+                    None,
+                    |_| None,
+                ).unwrap();
+                let source_str = std::str::from_utf8(source).unwrap();
+
+                for event in highlights {
+                    match event.unwrap() {
+                        HighlightEvent::Source { start, end } => {
+                            print!("{}", &source_str[start..end]);
+                        },
+                        HighlightEvent::HighlightStart(s) => {
+                            match s.0 {
+                                0 => print!("\x1b[31m"),
+                                1 | 2 => print!("\x1b[32m"),
+                                3 => print!("\x1b[33m"),
+                                4 | 5 => print!("\x1b[94m"),
+                                6 => print!("\x1b[35m"),
+                                7 | 8 => print!("\x1b[36m"),
+                                _ => (),
+                            }
+                        },
+                        HighlightEvent::HighlightEnd => {
+                            print!("\x1b[39m")
+                        },
+                    }
+                }
             }
         }
     })
