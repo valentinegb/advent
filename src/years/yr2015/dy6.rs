@@ -81,7 +81,7 @@ pub(super) fn pt1(input: String) {
 }
 
 pub(super) fn pt2(input: String) {
-    let mut grid: [[u32; 1000]; 1000] = [[0; 1000]; 1000];
+    let mut grid: Vec<[u8; 1000]> = vec![[0; 1000]; 1000];
 
     for instruction in input.split('\n') {
         let instruction = Instruction::from_str(instruction).unwrap();
@@ -105,7 +105,7 @@ pub(super) fn pt2(input: String) {
 
     for column in grid {
         for brightness in column {
-            total_brightness += brightness;
+            total_brightness += brightness as u32;
         }
     }
 
