@@ -11,6 +11,7 @@ publish.workspace = true
 
 [dependencies]
 advent-proc-macros = { version = "0.1.0", path = "advent-proc-macros" }
+anyhow = "1.0.75"
 clap = { version = "4.4.7", features = ["derive"] }
 md-5 = "0.10.6"
 tree-sitter-highlight = "0.20.1"
