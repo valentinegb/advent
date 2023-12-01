@@ -1,7 +1,7 @@
 mod years;
 
 use clap::{CommandFactory, Parser};
-use years::{yr2015::yr2015, AdventYear};
+use years::{yr2015::yr2015, yr2023::yr2023, AdventYear};
 
 #[derive(Parser)]
 #[command(
@@ -22,5 +22,6 @@ fn main() {
 
     match advent_args.year {
         AdventYear::Yr2015 { day, part, input } => yr2015(&mut cmd, day, part, input),
+        AdventYear::Yr2023 { day, part, input } => yr2023(&mut cmd, day, part, input),
     }
 }
