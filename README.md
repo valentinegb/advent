@@ -1,6 +1,6 @@
 # `advent`
 
-CLI for running Advent of Code puzzles that I've solved
+CLI for running [Advent of Code](https://adventofcode.com) puzzles that I've solved
 
 ## What?
 
