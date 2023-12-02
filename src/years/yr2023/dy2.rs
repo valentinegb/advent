@@ -31,5 +31,43 @@ pub(super) fn pt1(input: String) {
 }
 
 pub(super) fn pt2(input: String) {
-    todo!();
+    let mut sum = 0;
+
+    for game in input.split('\n') {
+        let (_id, game) = game.split_once(": ").unwrap();
+
+        let mut largest_red = 0;
+        let mut largest_green = 0;
+        let mut largest_blue = 0;
+
+        for set in game.split("; ") {
+            for blocks in set.split(", ") {
+                let (quantity, color) = blocks.split_once(' ').unwrap();
+                let quantity: u32 = quantity.parse().unwrap();
+
+                match color {
+                    "red" => {
+                        if quantity > largest_red {
+                            largest_red = quantity
+                        }
+                    }
+                    "green" => {
+                        if quantity > largest_green {
+                            largest_green = quantity
+                        }
+                    }
+                    "blue" => {
+                        if quantity > largest_blue {
+                            largest_blue = quantity
+                        }
+                    }
+                    _ => unreachable!(),
+                }
+            }
+        }
+
+        sum += largest_red * largest_green * largest_blue;
+    }
+
+    println!("{sum}");
 }
